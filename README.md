@@ -6,28 +6,32 @@ The given context is the **implementation of an inventory management system** fo
 
 At the very beginning, we received a [grotesque pile of nested ifs](https://github.com/mtbrault/GildedRoseTHP/blob/master/src/gilded_rose.js) to work with.
 
-So, I've come up with a system that at least delimit the scopes of the code in different files.
+So, I've come up with a system that spread the scopes of the code into different files.
 
 Besides, as the products have very different characteristics, I've used **Object-oriented programming with classes, class inheritance and class methods** to fit in the context.
 
-Finally, [Jasmine](https://jasmine.github.io/) has been installed for unit testing purposes. You can check in `spec/gilded_rose_spec.js` the code regarding the tests conducted.
+Finally, [Jasmine](https://jasmine.github.io/) has been installed for **unit testing purposes**. You can check that out in `spec/gilded_rose_spec.js`.
 
 ---
 
 ## Set up 
 
-- Get the resource:
-  - Download directly the repository.
+1/ Get the resource:
+  - Download the repository
   - OR `git clone https://github.com/kentsbrockman/GildedRoseTHP_QPlaud.git`
 
-- `cd GildedRoseTHP_QPlaud`
+2/ `cd GildedRoseTHP_QPlaud`
 
-- `npm install`
+3/ `npm install`
 
-- `npm test`
+4/ `npm test`
 
 ---
 
 ## Author
 
 Quentin Plaud : https://github.com/kentsbrockman
+
+---
+
+Have a great day!

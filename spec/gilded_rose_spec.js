@@ -1,4 +1,4 @@
-const { Shop, Item, OnlyFresh, Legend, Conjured } = require('../src/gilded_rose.js');
+const { Shop, Item, Rare, Legendary, Conjured } = require('../src/gilded_rose.js');
 
 describe("GildedRose shop manager", function () {
   let listItems;
@@ -7,7 +7,7 @@ describe("GildedRose shop manager", function () {
     listItems = [];
   });
 
-  it("1/ Baisser de 1 la qualité et sellIn d'item normaux", function () {
+  it("1/ The quality and expiration date of common items is reduced by 1", function () {
     listItems.push(new Item("+5 Dexterity Vest", 10, 20));
     listItems.push(new Item("Mana Cake", 3, 6));
 
@@ -19,12 +19,12 @@ describe("GildedRose shop manager", function () {
       { sellIn: 2, quality: 5 }
     ];
     expected.forEach(function (testCase, idx) {
-      expect(items[idx].quality).toBe(testCase.quality);
       expect(items[idx].sellIn).toBe(testCase.sellIn);
+      expect(items[idx].quality).toBe(testCase.quality);
     });
   });
 
-  it("2/ La qualité diminue 2 fois plus vite une fois la préremption passée", function () {
+  it("2/ The quality of common items drops twice as fast once the expiration date has passed", function () {
     listItems.push(new Item("+5 Dexterity Vest", 0, 10));
     listItems.push(new Item("Mana Cake", -1, 5));
 
@@ -36,12 +36,12 @@ describe("GildedRose shop manager", function () {
       { sellIn: -2, quality: 3 }
     ];
     expected.forEach(function (testCase, idx) {
-      expect(items[idx].quality).toBe(testCase.quality);
       expect(items[idx].sellIn).toBe(testCase.sellIn);
+      expect(items[idx].quality).toBe(testCase.quality);
     });
   });
 
-  it("3/ La qualité d'un objet ne peut jamais être inféreure à 0", function () {
+  it("3/ The quality of a common item can never be less than 0", function () {
     listItems.push(new Item("+5 Dexterity Vest", 10, 0));
     listItems.push(new Item("Mana Cake", -2, 0));
 
@@ -53,113 +53,121 @@ describe("GildedRose shop manager", function () {
       { sellIn: -3, quality: 0 }
     ];
     expected.forEach(function (testCase, idx) {
-      expect(items[idx].quality).toBe(testCase.quality);
       expect(items[idx].sellIn).toBe(testCase.sellIn);
+      expect(items[idx].quality).toBe(testCase.quality);
     });
   });
 
-  it("4/ Augmenter la qualité de 1 pour Aged Brie et Backstage passes", function () {
-    listItems.push(new OnlyFresh("Aged Brie", 20, 30));
-    listItems.push(new OnlyFresh("Backstage passes to a TAFKAL80ETC concert", 20, 30));
+  it("4/ The quality of a common item can never be more than 50", function () {
+    listItems.push(new Item("+5 Dexterity Vest", 10, 900));
+    listItems.push(new Item("Mana Cake", 20, 60));
 
     const gildedRose = new Shop(listItems);
     const items = gildedRose.updateQuality();
 
     let expected = [
-      { sellIn: 19, quality: 31 },
-      { sellIn: 19, quality: 31 },
+      { sellIn: 9, quality: 50 },
+      { sellIn: 19, quality: 50 }
     ];
     expected.forEach(function (testCase, idx) {
-      expect(items[idx].quality).toBe(testCase.quality);
       expect(items[idx].sellIn).toBe(testCase.sellIn);
+      expect(items[idx].quality).toBe(testCase.quality);
     });
   });
 
-  it("5/ La qualité d'Aged Brie et Backstage augmente par 3 lorsqu'il reste moins de 5 jours", function () {
-    listItems.push(new OnlyFresh("Aged Brie", 4, 30));
-    listItems.push(new OnlyFresh("Backstage passes to a TAFKAL80ETC concert", 4, 30));
+  it("5/ The quality of a rare item increases by 2 when the expiration date is in 10 days", function () {
+    listItems.push(new Rare("Aged Brie", 11, 30));
+    listItems.push(new Rare("Backstage passes to a TAFKAL80ETC concert", 11, 40));
 
     const gildedRose = new Shop(listItems);
     const items = gildedRose.updateQuality();
 
     let expected = [
-      { sellIn: 3, quality: 33 },
-      { sellIn: 3, quality: 33 },
+      { sellIn: 10, quality: 32 },
+      { sellIn: 10, quality: 42 },
     ];
     expected.forEach(function (testCase, idx) {
-      expect(items[idx].quality).toBe(testCase.quality);
       expect(items[idx].sellIn).toBe(testCase.sellIn);
+      expect(items[idx].quality).toBe(testCase.quality);
     });
   });
 
-  it("6/ La qualité d'un objet ne dépasse jamais 50", function () {
-    listItems.push(new OnlyFresh("Aged Brie", 4, 48));
-    listItems.push(new OnlyFresh("Backstage passes to a TAFKAL80ETC concert", 4, 49));
+  it("6/ The quality of a rare item increases by 3 when the expiration date is in 5 days", function () {
+    listItems.push(new Rare("Aged Brie", 6, 30));
+    listItems.push(new Rare("Backstage passes to a TAFKAL80ETC concert", 6, 40));
 
     const gildedRose = new Shop(listItems);
     const items = gildedRose.updateQuality();
 
     let expected = [
-      { sellIn: 3, quality: 50 },
-      { sellIn: 3, quality: 50 },
+      { sellIn: 5, quality: 33 },
+      { sellIn: 5, quality: 43 },
     ];
     expected.forEach(function (testCase, idx) {
-      expect(items[idx].quality).toBe(testCase.quality);
       expect(items[idx].sellIn).toBe(testCase.sellIn);
+      expect(items[idx].quality).toBe(testCase.quality);
     });
   });
 
-  it("7/ La qualité d'un Sulfuras ne diminue jamais", function () {
-    listItems.push(new Legend("Sulfuras, Hand of Ragnaros", Infinity, 80));
-    listItems.push(new OnlyFresh("Aged Brie", 20, 30));
+  it("7/ The quality of a rare item can never be more than 50", function () {
+    listItems.push(new Rare("Aged Brie", 6, 48));
+    listItems.push(new Rare("Backstage passes to a TAFKAL80ETC concert", 6, 49));
 
     const gildedRose = new Shop(listItems);
     const items = gildedRose.updateQuality();
 
     let expected = [
-      { sellIn: Infinity, quality: 80 },
-      { sellIn: 19, quality: 31 },
+      { sellIn: 5, quality: 50 },
+      { sellIn: 5, quality: 50 },
     ];
     expected.forEach(function (testCase, idx) {
-      expect(items[idx].quality).toBe(testCase.quality);
       expect(items[idx].sellIn).toBe(testCase.sellIn);
+      expect(items[idx].quality).toBe(testCase.quality);
     });
   });
 
-  it("8/ La qualité de Backstage tombe à 0 après le concert (idem Aged Brie)", function () {
-    listItems.push(new Item("Mana Cake", 3, 6));
-    listItems.push(new OnlyFresh("Backstage passes to a TAFKAL80ETC concert", 0, 30));
-    listItems.push(new OnlyFresh("Aged Brie", 0, 40));
+  it("8/ The quality of a rare item falls to 0 after the expiration date", function () {
+    listItems.push(new Rare("Aged Brie", 0, 40));
+    listItems.push(new Rare("Backstage passes to a TAFKAL80ETC concert", 0, 30));
 
     const gildedRose = new Shop(listItems);
     const items = gildedRose.updateQuality();
 
     let expected = [
-      { sellIn: 2, quality: 5 },
       { sellIn: -1, quality: 0 },
       { sellIn: -1, quality: 0 },
     ];
     expected.forEach(function (testCase, idx) {
-      expect(items[idx].quality).toBe(testCase.quality);
       expect(items[idx].sellIn).toBe(testCase.sellIn);
+      expect(items[idx].quality).toBe(testCase.quality);
     });
+  });
+
+  it("9/ The quality of a legendary item never decreases and can be more than 50", function () {
+    listItems.push(new Legendary("Sulfuras, Hand of Ragnaros", Infinity, 80));
+
+    const gildedRose = new Shop(listItems);
+    const items = gildedRose.updateQuality();
+
+    let expected = { sellIn: Infinity, quality: 80 };
+    expect(items[0].sellIn).toBe(expected.sellIn);
+    expect(items[0].quality).toBe(expected.quality);
   });
   
-  it("9/ La qualité d'un objet 'Conjured' diminue 2 fois plus vite qu'un objet normal", function () {
-    listItems.push(new Conjured("Conjured Dark Blade", 5, 15));
-    listItems.push(new Conjured("Conjured Magic Stick", -1, 10));
+  it("10/ The quality of a 'Conjured' item decreases twice as fast as a common item", function () {
+    listItems.push(new Conjured("Conjured Dark Blade", 5, 35));
+    listItems.push(new Conjured("Conjured Magic Stick", -3, 20));
 
     const gildedRose = new Shop(listItems);
     const items = gildedRose.updateQuality();
 
     let expected = [
-      { sellIn: 4, quality: 13 },
-      { sellIn: -2, quality: 6 }
+      { sellIn: 4, quality: 33 },
+      { sellIn: -4, quality: 16 }
     ];
     expected.forEach(function (testCase, idx) {
       expect(items[idx].quality).toBe(testCase.quality);
       expect(items[idx].sellIn).toBe(testCase.sellIn);
     });
   });
-
 });

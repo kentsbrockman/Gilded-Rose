@@ -18,13 +18,19 @@ class Item {
   }
 
   updateQuality() {
-    const decreaseQuality = this.decreaseQuality()
+    const decreaseQuality = this.decreaseQuality();
 
     this.quality = this.quality - decreaseQuality;
 
     if (this.quality < 0) {
-      this.quality = 0
-    }
+      this.quality = 0;
+      return;
+    };
+
+    if (this.quality > 50) {
+      this.quality = 50;
+      return;
+    };
   }
 }
 
