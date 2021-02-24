@@ -1,10 +1,5 @@
-class Item {
-  constructor(name, sellIn, quality){
-    this.name = name;
-    this.sellIn = sellIn;
-    this.quality = quality;
-  }
-}
+import Item from './item.js';
+import Shop from './shop.js';
 
 class Shop {
   constructor(items=[]){

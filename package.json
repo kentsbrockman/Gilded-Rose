@@ -24,7 +24,7 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "1.7.0",
     "babel-register": "^6.26.0",
-    "jasmine": "^3.2.0"
+    "jasmine": "^3.6.4"
   },
   "babel": {
     "presets": [
