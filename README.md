@@ -1,4 +1,4 @@
-# Gilded Rose THP
+# Gilded Rose
 
 Here's a project meant to practice refactoring and clean code, conducted during [The Hacking Project](https://www.thehackingproject.org/) bootcamp.
 
@@ -16,11 +16,9 @@ Finally, [Jasmine](https://jasmine.github.io/) has been installed for **unit tes
 
 ## Set up 
 
-1/ Get the resource:
-  - Download the repository
-  - OR `git clone https://github.com/kentsbrockman/GildedRoseTHP_QPlaud.git`
+1/ Download or clone this repository
 
-2/ `cd GildedRoseTHP_QPlaud`
+2/ `cd Gilded-Rose`
 
 3/ `npm install`
 
